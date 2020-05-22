@@ -144,7 +144,7 @@ func TestIssueList_withFlags(t *testing.T) {
 	} } }
 	`))
 
-	output, err := RunCommand("issue list -a probablyCher -l web,bug -s open -A foo")
+	output, err := RunCommand("issue list -a probablyCher -l web,bug -s open -A foo -m 1")
 	if err != nil {
 		t.Errorf("error running command `issue list`: %v", err)
 	}
@@ -162,6 +162,7 @@ No issues match your search in OWNER/REPO
 			Labels   []string
 			States   []string
 			Author   string
+			Milestone string
 		}
 	}{}
 	_ = json.Unmarshal(bodyBytes, &reqBody)
@@ -170,6 +171,7 @@ No issues match your search in OWNER/REPO
 	eq(t, reqBody.Variables.Labels, []string{"web", "bug"})
 	eq(t, reqBody.Variables.States, []string{"OPEN"})
 	eq(t, reqBody.Variables.Author, "foo")
+	eq(t, reqBody.Variables.Milestone, "1")
 }
 
 func TestIssueList_nullAssigneeLabels(t *testing.T) {
